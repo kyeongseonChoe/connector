@@ -13,6 +13,11 @@ steps:
     volumes:
       - name: dockersock
         path: /var/run/docker.sock
+    environment:
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
     commands: 
       - docker ps
       # - docker tag ...
@@ -41,6 +46,14 @@ steps:
         from_secret: k8s_token
     commands:
       - kubectl apply -f connector-deployment.yml
+
+services:
+  - name: docker
+    image: docker:dind
+    privileged: true
+    volumes:
+      - name: dockersock
+        path: /var/run
 
 volumes:
   - name: dockersock
