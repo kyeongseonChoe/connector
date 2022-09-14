@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM python:3.8.5
 
 #ENV PYTHONUNBUFFERED=1
 #ENV http_proxy http://proxy-chain.xxx.com:911/ 781
