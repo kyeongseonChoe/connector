@@ -1,10 +1,5 @@
 kind: pipeline
-name: python-3-8
-trigger:
-  branch:
-    - develop
-  event:
-    - push
+name: default
 steps:
 # - name: test
 #   image: golang:1.14.15
