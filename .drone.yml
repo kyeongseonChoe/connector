@@ -9,10 +9,11 @@ steps:
       - pip install -r requirements.txt
 
   - name: publish
-    image: plugins/docker
+    image: plugins/docker:lastest
     settings:
       repo: udpautocrypt/connector
       tags: [ "${DRONE_COMMIT_SHA:0:7}" ]
+      file: Dockerfile
       username:
         from_secret: docker_username
       password:
