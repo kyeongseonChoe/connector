@@ -13,7 +13,7 @@ steps:
     settings:
       repo: udpautocrypt/connector
       tags: [ "${DRONE_COMMIT_SHA:0:7}" ]
-      file: Dockerfile
+      # file: Dockerfile
       environment:
         - DOCKER_LAUNCH_DEBUG=true 
       username:

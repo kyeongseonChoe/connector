@@ -1,8 +1,8 @@
 FROM python:3.10
 
 ENV PYTHONUNBUFFERED=1
-ENV http_proxy=http:...
-ENV https_proxy=http:...
+ENV http_proxy http://proxy-chain.xxx.com:911/ 781
+ENV https_proxy http://proxy-chain.xxx.com:912/ 176
 
 COPY requirements.txt requirements.txt
 
