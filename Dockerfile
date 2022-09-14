@@ -1,33 +1,13 @@
-# set base image (host OS)
 FROM python:3.10-slim
 
-# set the working directory in the container
-WORKDIR /home
+ENV PYTHONUNBUFFERED=1
 
-# copy the dependencies file to the working directory
-COPY requirements.txt .
-COPY rabbitmq/consumer/consumer.py .
+COPY requirements.txt requirements.txt
 
-# install dependencies
-RUN pip install  --root-user-action=ignore --upgrade pip
-RUN pip install  --root-user-action=ignore -r requirements.txt
-COPY . .
+RUN pip install -r requirements.txt
 
-# copy the content of the local src directory to the working directory
-COPY connector/ .
+COPY rabbitmq/consumer .
 
-# command to run on container start
-CMD [ "python", "./consumer.py" ]
+EXPOSE 5000
 
-# RUN pip install --upgrade pip
-
-# RUN adduser -D myuser
-# USER myuser
-# WORKDIR /home/myuser
-
-# COPY --chown=myuser:myuser requirements.txt requirements.txt
-# RUN pip install --user -r requirements.txt
-
-# ENV PATH="/home/myuser/.local/bin:${PATH}"
-
-# COPY --chown=myuser:myuser . .
+CMD [ "python3","./consumer.py", "--port=5000"]
