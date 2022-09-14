@@ -1,71 +1,34 @@
----
 kind: pipeline
 type: docker
 name: default
 
 steps:
-- name: test2
-  image: domain/drone-test
-  commands:
-  - sleep 5 # give docker enough time to start
-  - docker ps -a
+  - name: test
+    image: python:3.10
+    commands:
+      - pip install -r requirements.txt
 
-# kind: pipeline
-# name: default
+  - name: publish
+    image: plugins/docker
+    settings:
+      repo: udpautocrypt/connector
+      tags: [ "${DRONE_COMMIT_SHA:0:7}" ]
+      # file: Dockerfile
+      environment:
+        - DOCKER_LAUNCH_DEBUG=true 
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
 
-# steps:
-#   # - name: test
-#   #   image: python:3.10
-#   #   commands:
-#   #     - pip install -r requirements.txt
-
-#   - name: test2
-#     image: docker:dind
-#     volumes:
-#     - name: dockersock
-#       path: /var/run
-#     commands:
-#     - sleep 10 # give docker enough time to start
-#     - docker ps -a
-
-# services:
-# - name: docker-test
-#   image: docker:dind
-#   privileged: true
-#   volumes:
-#   - name: dockersock
-#     path: /var/run
-
-# volumes:
-# - name: dockersock
-#   temp: {}
-
-  # - name: build
-  #   image: docker
-  #   commands:
-  #     - docker build . -t connector-dev
-
-  # - name: publish
-  #   image: plugins/docker
-  #   settings:
-  #     repo: udpautocrypt/connector
-  #     tags: [ "${DRONE_COMMIT_SHA:0:7}" ]
-  #     # file: Dockerfile
-  #     environment:
-  #       - DOCKER_LAUNCH_DEBUG=true 
-  #     username:
-  #       from_secret: docker_username
-  #     password:
-  #       from_secret: docker_password
-
-  # - name: deploy
-  #   image: sinlead/drone-kubectl
-  #   settings:
-  #     kubernetes_server:
-  #       from_secret: k8s_server
-  #     kubernetes_cert:
-  #       from_secret: k8s_cert
-  #     kubernetes_token:
-  #       from_secret: k8s_token
-  #   commands:
-  #     - kubectl apply -f connector-deployment.yml
+  - name: deploy
+    image: sinlead/drone-kubectl
+    settings:
+      kubernetes_server:
+        from_secret: k8s_server
+      kubernetes_cert:
+        from_secret: k8s_cert
+      kubernetes_token:
+        from_secret: k8s_token
+    commands:
+      - kubectl apply -f connector-deployment.yml

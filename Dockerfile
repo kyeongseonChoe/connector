@@ -17,4 +17,4 @@ COPY rabbitmq/consumer .
 
 EXPOSE 5000 
 
-CMD [ "python","./consumer.py", "--port=5000"]
+CMD [ "pip install --trusted-host pypi.python.org -r requirements.txt"]
