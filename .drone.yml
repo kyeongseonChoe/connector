@@ -6,7 +6,9 @@ steps:
     image: python:3.10
     commands:
       - pip install -r requirements.txt
-  - name: test
+
+
+  - name: test2
     image: docker:dind
     volumes:
     - name: dockersock
