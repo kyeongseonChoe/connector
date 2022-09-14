@@ -8,31 +8,31 @@ steps:
     commands:
       - pip install -r requirements.txt
 
-  - name: publish
-    image: docker:dind
-    volumes:
-      - name: dockersock
-        path: /var/run/docker.sock
-    environment:
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-    commands: 
-      - docker ps
-      # - docker tag ...
-      # - docker push ...
-
   # - name: publish
-  #   image: plugins/docker
-  #   settings:
-  #     repo: udpautocrypt/connector
-  #     tags: [ "${DRONE_COMMIT_SHA:0:7}" ]
-  #     file: Dockerfile
+  #   image: docker:dind
+  #   volumes:
+  #     - name: dockersock
+  #       path: /var/run/docker.sock
+  #   environment:
   #     username:
   #       from_secret: docker_username
   #     password:
   #       from_secret: docker_password
+  #   commands: 
+  #     - docker ps
+  #     # - docker tag ...
+  #     # - docker push ...
+
+  - name: publish
+    image: plugins/docker
+    settings:
+      repo: udpautocrypt/connector
+      tags: [ "${DRONE_COMMIT_SHA:0:7}" ]
+      file: Dockerfile
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
 
 
   - name: deploy
