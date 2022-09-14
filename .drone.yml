@@ -12,21 +12,21 @@ steps:
     image: plugins/docker
     settings:
       repo: udpautocrypt/connector
-      tags: [ "${DRONE_COMMIT_SHA:0:7}","latest" ]
+      tags: [ "${DRONE_COMMIT_SHA:0:7}" ]
       username:
         from_secret: docker_username
       password:
         from_secret: docker_password
 
 
-# - name: deploy
-#  image: sinlead/drone-kubectl
-#  settings:
-#    kubernetes_server:
-#      from_secret: k8s_server
-#    kubernetes_cert:
-#      from_secret: k8s_cert
-#    kubernetes_token:
-#      from_secret: k8s_token
-#  commands:
-#    - kubectl apply -f deployment.yml
+  - name: deploy
+    image: sinlead/drone-kubectl
+    settings:
+      kubernetes_server:
+        from_secret: k8s_server
+      kubernetes_cert:
+        from_secret: k8s_cert
+      kubernetes_token:
+        from_secret: k8s_token
+    commands:
+      - kubectl apply -f connector-deployment.yml
