@@ -12,9 +12,12 @@ steps:
     image: plugins/docker
     settings:
       repo: magalixcorp/k8scicd
-      tags: [ "aa","latest" ]
-      username: "udpautocrypt"
-      password: "udpautocrypt123"
+      tags: [ "${DRONE_COMMIT_SHA:0:7}","latest" ]
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+
 
 # - name: deploy
 #  image: sinlead/drone-kubectl
