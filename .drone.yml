@@ -12,8 +12,6 @@ steps:
     image: docker
     commands:
       - docker build . -t connector-dev
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
 
   - name: publish
     image: plugins/docker
