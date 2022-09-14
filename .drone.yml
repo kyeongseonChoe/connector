@@ -1,39 +1,32 @@
 kind: pipeline
 name: default
 steps:
-# - name: test
-#   image: golang:1.14.15
-#   commands:
-#   - go test ./...
-#   - go build -o /dev/null github.com/drone/drone/cmd/drone-server
-#   - go build -o /dev/null -tags "oss nolimit" github.com/drone/drone/cmd/drone-server
+  - name: build
+    image: docker:latest
+    commands:
+    - docker build . -t connector-dev
 
-- name: build
-  image: docker:latest
-  commands:
-  - docker build . -t connector-dev
+  - name: publish
+    image: plugins/docker:18
+    settings:
+      auto_tag: true
+      auto_tag_suffix: linux-amd64
+      dockerfile: docker/Dockerfile.server.linux.amd64
+      repo: drone/drone
+      username: "udpautocrypt"
+      password: "udpautocrypt123"
+    when:
+      event:
+      - push
+      - tag
 
-- name: publish
-  image: plugins/docker:18
-  settings:
-    auto_tag: true
-    auto_tag_suffix: linux-amd64
-    dockerfile: docker/Dockerfile.server.linux.amd64
-    repo: drone/drone
-    username: "udpautocrypt"
-    password: "udpautocrypt123"
-  when:
-    event:
-    - push
-    - tag
-
-- name: publish
-  image: plugins/docker
-  settings:
-    repo: magalixcorp/k8scicd
-    tags: [ "${DRONE_COMMIT_SHA:0:7}","latest" ]
-    username: "udpautocrypt"
-    password: "udpautocrypt123"
+  - name: publish
+    image: plugins/docker
+    settings:
+      repo: magalixcorp/k8scicd
+      tags: [ "${DRONE_COMMIT_SHA:0:7}","latest" ]
+      username: "udpautocrypt"
+      password: "udpautocrypt123"
 
 # - name: deploy
 #  image: sinlead/drone-kubectl
