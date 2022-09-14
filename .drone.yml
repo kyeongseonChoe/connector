@@ -12,7 +12,7 @@ steps:
     image: plugins/docker
     settings:
       repo: magalixcorp/k8scicd
-      tags: [ "${DRONE_COMMIT_SHA:0:7}","latest" ]
+      tags: [ "aa","latest" ]
       username: "udpautocrypt"
       password: "udpautocrypt123"
 
