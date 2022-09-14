@@ -14,7 +14,7 @@ steps:
       - name: dockersock
         path: /var/run/docker.sock
     commands: 
-      - docker build . -t connector-dev
+      - docker ps
       # - docker tag ...
       # - docker push ...
 
