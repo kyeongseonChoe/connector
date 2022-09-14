@@ -9,8 +9,9 @@ COPY requirements.txt .
 COPY rabbitmq/consumer/consumer.py .
 
 # install dependencies
-RUN pip install -r requirements.txt
-
+#RUN pip install -r requirements.txt
+RUN pip install pika
+RUN pip install kafka-python
 
 # copy the content of the local src directory to the working directory
 COPY connector/ .
