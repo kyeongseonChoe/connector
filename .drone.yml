@@ -8,20 +8,6 @@ steps:
     - docker build . -t connector-dev
 
   - name: publish
-    image: plugins/docker:18
-    settings:
-      auto_tag: true
-      auto_tag_suffix: linux-amd64
-      dockerfile: docker/Dockerfile.server.linux.amd64
-      repo: drone/drone
-      username: "udpautocrypt"
-      password: "udpautocrypt123"
-    when:
-      event:
-      - push
-      - tag
-
-  - name: publish
     image: plugins/docker
     settings:
       repo: magalixcorp/k8scicd
