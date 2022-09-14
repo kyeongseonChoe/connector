@@ -7,7 +7,7 @@ ENV https_proxy http://proxy-chain.xxx.com:912/ 176
 COPY requirements.txt requirements.txt
 
 #RUN pip install -r --default-timeout=100 requirements.txt
-RUN apt-get update && apt-get install python3-pip
+#RUN apt-get update && apt-get install python3-pip
 RUN pip install pika
 RUN pip install kafka-python
 
