@@ -1,5 +1,5 @@
 kind: pipeline
-type: docker
+type: kubernetes
 name: default
 
 steps:
@@ -8,33 +8,19 @@ steps:
     commands:
       - pip install -r requirements.txt
 
-  # - name: test2
-  #   image: docker:dind
-  #   volumes:
-  #     - name: dockersock
-  #       path: /var/run/docker.sock
-  #   environment:
-  #     username:
-  #       from_secret: docker_username
-  #     password:
-  #       from_secret: docker_password
-  #   commands: 
-  #     - docker ps
-  #     # - docker tag ...
-  #     # - docker push ...
-
   - name: publish
     image: plugins/docker
     settings:
       repo: udpautocrypt/connector
       tags: [ "${DRONE_COMMIT_SHA:0:7}" ]
       file: Dockerfile
+      environment:
+        - DOCKER_LAUNCH_DEBUG=true 
       username:
         from_secret: docker_username
       password:
         from_secret: docker_password
 
- 
   - name: deploy
     image: sinlead/drone-kubectl
     settings:
@@ -46,16 +32,3 @@ steps:
         from_secret: k8s_token
     commands:
       - kubectl apply -f connector-deployment.yml
-
-# services:
-#   - name: docker
-#     image: docker:dind
-#     privileged: true
-#     volumes:
-#       - name: dockersock
-#         path: /var/run
-
-# volumes:
-#   - name: dockersock
-#     host:
-#       path: /var/run/docker.sock
