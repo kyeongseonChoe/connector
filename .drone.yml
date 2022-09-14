@@ -16,17 +16,17 @@ steps:
     - sleep 5 # give docker enough time to start
     - docker ps -a
 
-services:
-- name: docker
-  image: docker:dind
-  privileged: true
-  volumes:
-  - name: dockersock
-    path: /var/run
+# services:
+# - name: docker
+#   image: docker:dind
+#   privileged: true
+#   volumes:
+#   - name: dockersock
+#     path: /var/run
 
-volumes:
-- name: dockersock
-  temp: {}
+# volumes:
+# - name: dockersock
+#   temp: {}
 
   # - name: build
   #   image: docker
