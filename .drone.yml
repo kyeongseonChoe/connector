@@ -9,15 +9,25 @@ steps:
       - pip install -r requirements.txt
 
   - name: publish
-    image: plugins/docker
-    settings:
-      repo: udpautocrypt/connector
-      tags: [ "${DRONE_COMMIT_SHA:0:7}" ]
-      file: Dockerfile
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
+    image: docker:dind
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
+    commands:
+      - docker build . -t connector-dev
+      # - docker tag ...
+      # - docker push ...
+
+  # - name: publish
+  #   image: plugins/docker
+  #   settings:
+  #     repo: udpautocrypt/connector
+  #     tags: [ "${DRONE_COMMIT_SHA:0:7}" ]
+  #     file: Dockerfile
+  #     username:
+  #       from_secret: docker_username
+  #     password:
+  #       from_secret: docker_password
 
 
   - name: deploy
@@ -31,3 +41,8 @@ steps:
         from_secret: k8s_token
     commands:
       - kubectl apply -f connector-deployment.yml
+
+volumes:
+  - name: dockersock
+    host:
+      path: /var/run/docker.sock
