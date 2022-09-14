@@ -8,20 +8,20 @@ steps:
     commands:
       - pip install -r requirements.txt
 
-  # - name: publish
-  #   image: docker:dind
-  #   volumes:
-  #     - name: dockersock
-  #       path: /var/run/docker.sock
-  #   environment:
-  #     username:
-  #       from_secret: docker_username
-  #     password:
-  #       from_secret: docker_password
-  #   commands: 
-  #     - docker ps
-  #     # - docker tag ...
-  #     # - docker push ...
+  - name: test2
+    image: docker:dind
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
+    environment:
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+    commands: 
+      - docker ps
+      # - docker tag ...
+      # - docker push ...
 
   - name: publish
     image: plugins/docker
@@ -34,7 +34,7 @@ steps:
       password:
         from_secret: docker_password
 
-
+ 
   - name: deploy
     image: sinlead/drone-kubectl
     settings:
