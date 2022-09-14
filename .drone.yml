@@ -1,5 +1,5 @@
 kind: pipeline
-type: kubernetes
+type: docker
 name: default
 
 steps:
@@ -7,6 +7,11 @@ steps:
     image: python:3.10
     commands:
       - pip install -r requirements.txt
+
+  - name: build
+    image: docker/compose:1.24.0
+    commands:
+      - docker build . -t connector-dev
 
   - name: publish
     image: plugins/docker
