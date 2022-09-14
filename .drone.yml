@@ -3,10 +3,11 @@ type: docker
 name: default
 
 steps:
-  # - name: build
-  #   image: plugins/docker
-  #   commands:
-  #     - docker build . -t connector-dev:latest
+  - name: test
+    image: python:3.10
+    commands:
+      - pip install -r requirements.txt
+      - pytest
 
   - name: publish
     image: plugins/docker
