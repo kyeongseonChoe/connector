@@ -1,6 +1,8 @@
 FROM python:3.10
 
 ENV PYTHONUNBUFFERED=1
+ENV http_proxy=http:...
+ENV https_proxy=http:...
 
 COPY requirements.txt requirements.txt
 
