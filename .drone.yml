@@ -18,7 +18,7 @@ steps:
     - docker ps -a
 
 services:
-- name: docker
+- name: docker-test
   image: docker:dind
   privileged: true
   volumes:
