@@ -11,7 +11,7 @@ steps:
   - name: publish
     image: plugins/docker
     settings:
-      repo: magalixcorp/k8scicd
+      repo: udpautocrypt/connector
       tags: [ "${DRONE_COMMIT_SHA:0:7}","latest" ]
       username:
         from_secret: docker_username
