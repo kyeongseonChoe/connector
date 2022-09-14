@@ -11,7 +11,7 @@ COPY requirements.txt requirements.txt
 # RUN pip install pika
 # RUN pip install kafka-python
 # Install any needed packages specified in requirements.txt
-RUN pip install --trusted-host pypi.python.org -r requirements.txt
+#RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
 COPY rabbitmq/consumer .
 
