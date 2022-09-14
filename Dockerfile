@@ -1,5 +1,5 @@
 # set base image (host OS)
-FROM python:3.8
+FROM python:3.9.10
 
 # set the working directory in the container
 WORKDIR /home
@@ -9,7 +9,6 @@ COPY requirements.txt .
 COPY rabbitmq/consumer/consumer.py .
 
 # install dependencies
-RUN python -m pip install --upgrade pip 
 RUN pip install -r requirements.txt
 
 
