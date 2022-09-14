@@ -9,7 +9,8 @@ COPY requirements.txt .
 COPY rabbitmq/consumer/consumer.py .
 
 # install dependencies
-RUN pip3 install -r requirements.txt
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
 
 # copy the content of the local src directory to the working directory
